@@ -15,10 +15,9 @@
       )
         .then(function (response) {
           return response.json();
-          console.log(response.json());
         })
-        .then(function (response) {
-          img.src = response.data.images.original.url;
+        .then(function (object) {
+          img.src = object.data.images.original.url;
         });
     </script>
   </body>
