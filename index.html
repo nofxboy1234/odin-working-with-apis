@@ -6,19 +6,32 @@
     <title>Document</title>
   </head>
   <body>
-    <img src="#" alt="" />
+    <div>
+      <button>Fetch new image</button>
+    </div>
+    <div>
+      <img src="#" alt="" />
+    </div>
     <script>
       const img = document.querySelector("img");
-      fetch(
-        "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
-        { mode: "cors" }
-      )
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (object) {
-          img.src = object.data.images.original.url;
-        });
+      const button = document.querySelector("button");
+
+      button.addEventListener("click", () => {
+        fetch(
+          // "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
+          // "https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=cats",
+          "https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=cats",
+          { mode: "cors" }
+        )
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (object) {
+            const url = object.data.images.original.url;
+            console.log(url);
+            img.src = url;
+          });
+      });
     </script>
   </body>
 </html>
