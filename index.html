@@ -18,6 +18,10 @@
     </div>
 
     <script>
+      const tagElement = document.querySelector("#tag");
+      const searchTagButton = document.querySelector("#search-tag-button");
+      const imageContainer = document.querySelector("#image-container");
+
       function updateImage(url) {
         let img = document.querySelector("#fetched-image");
         if (img) {
@@ -31,12 +35,9 @@
         imageContainer.appendChild(img);
       }
 
-      const fetchButton = document.querySelector("#fetch-button");
-      fetchButton.addEventListener("click", () => {
+      function fetchImage(tag = "cats") {
         fetch(
-          // "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
-          // "https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=cats",
-          "https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=cats",
+          `https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=${tag}`,
           { mode: "cors" }
         )
           .then(function (response) {
@@ -45,29 +46,20 @@
           .then(function (object) {
             const url = object.data.images.original.url;
             updateImage(url);
+          })
+          .catch(function (error) {
+            console.error(error);
           });
-      });
+      }
 
-      const tagElement = document.querySelector("#tag");
-      const searchTagButton = document.querySelector("#search-tag-button");
-      const imageContainer = document.querySelector("#image-container");
+      const fetchButton = document.querySelector("#fetch-button");
+      fetchButton.addEventListener("click", () => {
+        fetchImage();
+      });
 
       searchTagButton.addEventListener("click", () => {
         const tag = tagElement.value;
-        const searchUrl = `https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=${tag}`;
-        fetch(
-          // "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
-          // "https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=cats",
-          searchUrl,
-          { mode: "cors" }
-        )
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (object) {
-            const url = object.data.images.original.url;
-            updateImage(url);
-          });
+        fetchImage(tag);
       });
     </script>
   </body>
