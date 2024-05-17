@@ -23,7 +23,7 @@
       function updateImage(url) {
         clearContainer(imageContainer);
 
-        img = document.createElement("img");
+        const img = document.createElement("img");
         img.id = "fetched-image";
         img.src = url;
 
@@ -49,7 +49,6 @@
       function fetchImage(tag = "cats") {
         fetch(
           `https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=${tag}`,
-          // `https://api.giphy.com/v1/gifs/random?api_key=11111111112222222222333333333344&tag=${tag}`,
           { mode: "cors" }
         )
           .then(function (response) {
