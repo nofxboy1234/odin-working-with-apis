@@ -7,20 +7,46 @@
   </head>
   <body>
     <div>
-      <button>Fetch new image</button>
+      <button id="fetch-button">Fetch new cat image</button>
+    </div>
+    <div>
+      <input type="text" name="tag" id="tag" />
+      <button id="search-tag-button">Search for tag</button>
     </div>
     <div>
       <img src="#" alt="" />
     </div>
     <script>
       const img = document.querySelector("img");
-      const button = document.querySelector("button");
 
-      button.addEventListener("click", () => {
+      const fetchButton = document.querySelector("#fetch-button");
+      fetchButton.addEventListener("click", () => {
         fetch(
           // "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
           // "https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=cats",
           "https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=cats",
+          { mode: "cors" }
+        )
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (object) {
+            const url = object.data.images.original.url;
+            console.log(url);
+            img.src = url;
+          });
+      });
+
+      const tagElement = document.querySelector("#tag");
+      const searchTagButton = document.querySelector("#search-tag-button");
+
+      searchTagButton.addEventListener("click", () => {
+        const tag = tagElement.value;
+        const searchUrl = `https://api.giphy.com/v1/gifs/random?api_key=XLq1JPnenhPb0EFgYngVWwaU1HFyTJfW&tag=${tag}`;
+        fetch(
+          // "https://api.giphy.com/v1/gifs/translate?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&s=cats",
+          // "https://api.giphy.com/v1/gifs/random?api_key=VxUer0xtVLrYYZmdUjfSCXegU9fatz9M&tag=cats",
+          searchUrl,
           { mode: "cors" }
         )
           .then(function (response) {
